@@ -1,8 +1,0 @@
-Clients: 3
-Servers: 4
-client0 server0
-client0 server1
-client1 server1
-client1 server2
-client2 server2
-client2 server3
