@@ -2,9 +2,9 @@ clients: 4
 servers: 2
 
 clientLinks:
-client3 <-> client1
-client1 <-> client0
-client0 <-> client2
-client2 <-> client3
-client0 <-> client3
+client0 <-> client1
 client1 <-> client2
+client2 <-> client3
+client3 <-> client0
+client1 <-> client3
+client0 <-> client2

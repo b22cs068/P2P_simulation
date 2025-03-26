@@ -2,8 +2,8 @@ package A2;
 
 import ned.IdealChannel;
 
-simple Client { gates: input in; output out; }
-simple Server { gates: input in; output out; }
+module Client { gates: input in; output out; @class(Server); }
+module Server { gates: input in; output out; @class(Client); }
 
 network My_Network {
     submodules:
@@ -31,16 +31,16 @@ network My_Network {
         server0.out --> IdealChannel --> client3.in;
         client3.out --> IdealChannel --> server1.in;
         server1.out --> IdealChannel --> client3.in;
-        client3.out --> IdealChannel --> client1.in;
-        client1.out --> IdealChannel --> client3.in;
-        client1.out --> IdealChannel --> client0.in;
         client0.out --> IdealChannel --> client1.in;
-        client0.out --> IdealChannel --> client2.in;
-        client2.out --> IdealChannel --> client0.in;
-        client2.out --> IdealChannel --> client3.in;
-        client3.out --> IdealChannel --> client2.in;
-        client0.out --> IdealChannel --> client3.in;
-        client3.out --> IdealChannel --> client0.in;
+        client1.out --> IdealChannel --> client0.in;
         client1.out --> IdealChannel --> client2.in;
         client2.out --> IdealChannel --> client1.in;
+        client2.out --> IdealChannel --> client3.in;
+        client3.out --> IdealChannel --> client2.in;
+        client3.out --> IdealChannel --> client0.in;
+        client0.out --> IdealChannel --> client3.in;
+        client1.out --> IdealChannel --> client3.in;
+        client3.out --> IdealChannel --> client1.in;
+        client0.out --> IdealChannel --> client2.in;
+        client2.out --> IdealChannel --> client0.in;
 }

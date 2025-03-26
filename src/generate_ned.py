@@ -56,8 +56,8 @@ def generate_ned_file(num_clients, num_servers, client_connections):
     with open(NED_FILE, "w") as f:
         f.write("package A2;\n\n")
         f.write("import ned.IdealChannel;\n\n")
-        f.write("simple Client { gates: input in; output out; }\n")
-        f.write("simple Server { gates: input in; output out; }\n\n")
+        f.write("module Client { gates: input in; output out; @class(Server); }\n")
+        f.write("module Server { gates: input in; output out; @class(Client); }\n\n")
         f.write("network My_Network {\n")
         f.write("    submodules:\n")
 
