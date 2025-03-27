@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <random>
 #include "Server.h"
+#include "cpacket.h"
+#include <exception>
 
 using namespace omnetpp;
 Define_Module(Client);
@@ -14,9 +16,26 @@ class Client : public cSimpleModule
 {
     public:
          Client() {};
+         void initialize() override;
+         void handleMessage(cMessage *msg) override;
+         void sendSubtasks(const std::vector<int>& subtask);
 
 
 };
+
+void Client::handleMessage(cMessage *msg)
+{
+    cPacket *pkt= check_and_cast<cPacket*>(msg);
+    try {
+        int result = pkt ->par("result").intValue();
+        int serverId= pkt->par("ServerId").intValue();
+        EV<<"Received Result"<< reult<< " from server"<<serverId<<endl;
+    }
+    catch (const std:: exception& e)
+    {
+        EV<<"Error processing received message:"<< e.what()<<endl;
+    }
+}
 
 vector<int> Client::generate_array()
 {
@@ -63,9 +82,22 @@ std:: vector<std::vector<int>> divideIntoSubtasks(const std::vector<int>& data, 
 
 }
 
-Client::sendSubtasks(vector<int> subtask)
+Client::sendSubtasks(vector<int> &subtask, int subtaskid)
 {
     std:: vector<Server*> serversSubtask =randomlySelectedServers();
 
-
+    std:: stringstream ss;
+    for (size_t i=0; i<subtask.size(); i++)
+    {
+        if(i>0) ss<<",";
+        ss<< subtask[i];
+    }
+    std:: string subtaskStr = ss.str();
+    for (Server *server: selectedServers)
+    {
+        cPacket *pkt = new cPacket("SubTaskRequest");
+        pkt->addPar("clientId")= getID();
+        pkt->addPar("data") = subtaskStr;
+        send(pkt, "out", server->getID());
+    }
 }
