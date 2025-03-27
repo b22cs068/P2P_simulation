@@ -18,14 +18,14 @@ class Client : public cSimpleModule
 
 };
 
-vector<int> Server::generate_array()
+vector<int> Client::generate_array()
 {
     const int size = 100;
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(1, 1000);
 
-    std::vector<iint> randomVector(size);
+    std::vector<int> randomVector(size);
     for (int &num :randomVector)
     {
         num = dist(gen);
@@ -34,7 +34,7 @@ vector<int> Server::generate_array()
 
 }
 
-vector<Server*> Server:: randomlySelectServers()
+vector<Server*> Client:: randomlySelectServers()
 {
     std::vector<Server*>  allServers = Server::getAllServers();
     std::vector<Server*> selectedServers;
@@ -43,7 +43,29 @@ vector<Server*> Server:: randomlySelectServers()
     selectedServers.assign(allServers.begin(), allServers.begin()+ numSelected);
     return selectedServers;
 }
-void divideandassigntask()
+std:: vector<std::vector<int>> divideIntoSubtasks(const std::vector<int>& data, int n)
 {
+    std::vector<std::vector<int>> subtasks(n);
+    int dataSize=data.size();
+
+    if (n<=0 || dataSize==0) return subtasks;
+    int subTaskSize = dataSize/n;
+
+    int startIndex=0;
+    int remainder= dataSize%n;
+    for (int i=0; i<n; i++)
+    {
+        int currentSubtaskSize = subtaskSize + (i<remainder?1:0);
+        subtasks[i]= std::vector<int>(data.begin()+startIndex, data.begin()+startIndex+currentSubtaskSize);
+        startIndex+=subtaskSize();
+    }
+    return subtasks;
+
+}
+
+Client::sendSubtasks(vector<int> subtask)
+{
+    std:: vector<Server*> serversSubtask =randomlySelectedServers();
+
 
 }
