@@ -6,6 +6,7 @@
 #include <algorithm>
 
 using namespace omnetpp;
+Define_Module(Server);
 
 class MaliciousServerManager {
 private:
@@ -82,10 +83,13 @@ private:
     int calculateSubArraySum(const std::vector<int>& arr);
     int introduceRandomError(int originalSum);
     void logMessage(const std::string& message);
-
+    //Global LIst for storing all the servers
+    static std::vector<Server*> allServers;
 public:
-    Server() {} // Default constructor
+    Server() {allServers.push_back(this);} // Default constructor
     Server(int n, int total_servers);
+    static const std::vector<Server*>& getAllServers();
+
 };
 
 // Static member initialization
@@ -224,3 +228,51 @@ void Server::finish()
         maliciousManager = nullptr;
     }
 }
+
+const std::vector<Server*> & Server:: getAllServers()
+{
+    return allServers;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
